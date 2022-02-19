@@ -11,7 +11,6 @@ import getVehicleGPSPositon from "../../hooks/getVehicleGPSPosition";
 import getLineData from "../../hooks/getLineData";
 
 const drawerBleeding = 56;
-
 const Root = styled("div")(({ theme }) => ({
   height: "100%",
   backgroundColor:
@@ -39,6 +38,7 @@ function Menu(props) {
   const [vehicleData, setVehicleData] = useState([]);
   const [lineData, setLineData] = useState([]);
   const [lineNumber, setLineNumber] = useState([]);
+  const [line, setLine] = useState("");
 
   const { window } = props;
   const [open, setOpen] = useState(false);

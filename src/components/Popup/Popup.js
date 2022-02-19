@@ -39,6 +39,7 @@ export default function Popup() {
               <span>BUS</span>
             </div>
           </DialogContentText>
+          <br />
           <DialogContentText>
             Each icon has three types of colours which represent the degree of
             delay:

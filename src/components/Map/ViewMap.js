@@ -5,7 +5,6 @@ import { Map, Overlay } from "pigeon-maps";
 import { isMobile } from "react-device-detect";
 import "./ViewMap.css";
 function ViewMap(props) {
-
   return (
     <div className='map'>
       <Map
