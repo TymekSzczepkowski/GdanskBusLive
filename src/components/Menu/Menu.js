@@ -3,7 +3,6 @@ import { Global } from "@emotion/react";
 import {
   Card,
   CardContent,
-  Button,
   Box,
   Skeleton,
   Typography,
@@ -12,10 +11,9 @@ import {
 import { grey } from "@mui/material/colors";
 import CssBaseline from "@mui/material/CssBaseline";
 import { styled } from "@mui/material/styles";
-import { Map, Overlay } from "pigeon-maps";
-
-import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
+import ViewMap from "../Map/ViewMap";
 import axios from "axios";
+
 const drawerBleeding = 56;
 
 const Root = styled("div")(({ theme }) => ({
@@ -43,6 +41,8 @@ const Puller = styled(Box)(({ theme }) => ({
 function Menu(props) {
   const [vehicleIndex, setVehicleIndex] = useState();
   const [vehicleData, setVehicleData] = useState([]);
+  const [lineData, setLineData] = useState([]);
+  const [lineNumber, setLineNumber] = useState([]);
   useEffect(() => {
     setInterval(() => {
       axios
@@ -52,13 +52,13 @@ function Menu(props) {
         });
     }, 10000);
   }, []);
-  console.log(vehicleData);
   const { window } = props;
   const [open, setOpen] = useState(false);
 
-  const toggleDrawer = (newOpen, index) => () => {
+  const toggleDrawer = (newOpen, index, line) => () => {
     setOpen(newOpen);
     setVehicleIndex(index);
+    setLineNumber(line);
   };
   const convertDelay = (delay) => {
     if (delay < 0) return 0;
@@ -70,6 +70,22 @@ function Menu(props) {
       return "warning";
     else return "success";
   };
+
+  useEffect(() => {
+    axios
+      .get(
+        "https://ckan.multimediagdansk.pl/dataset/c24aa637-3619-4dc2-a171-a23eec8f2172/resource/22313c56-5acf-41c7-a5fd-dc5dc72b3851/download/routes.json"
+      )
+      .then((response) => {
+        let date = new Date().toISOString().slice(0, 10);
+        setLineData(response.data[date].routes);
+      });
+  }, []);
+
+  var found = lineData.find(function (vehicle) {
+    if (vehicle.routeId == lineNumber) return true;
+  });
+
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
@@ -84,25 +100,10 @@ function Menu(props) {
           },
         }}
       />
-      <Box sx={{ textAlign: "center", pt: 1 }}>
-        <Button>Search</Button>
-      </Box>
-      <Map
-        height={800}
-        defaultZoom={11}
-        twoFingerDrag={true}
-        defaultCenter={[54.372158, 18.638306]}>
-        {vehicleData.map((item, index) => (
-          <Overlay color='red' key={index} position={[item.Lat, item.Lon]}>
-            <DirectionsBusIcon
-              value={index}
-              color={iconColorizer(item.Delay)}
-              fontSize='large'
-              onClick={toggleDrawer(true, index)}
-            />
-          </Overlay>
-        ))}
-      </Map>
+      <ViewMap
+        vehicleData={vehicleData}
+        toggleDrawer={toggleDrawer}
+        iconColorizer={iconColorizer}></ViewMap>
       <SwipeableDrawer
         container={container}
         anchor='bottom'
@@ -149,7 +150,7 @@ function Menu(props) {
                       Line {vehicleData[vehicleIndex].Line}
                     </Typography>
                     <Typography variant='h5' component='div'>
-                      Brętowo PKM - Nowy Port Zajezdnia
+                      {found === undefined ? null : found.routeLongName}
                     </Typography>
                     <Typography sx={{ mb: 1.5 }} color='text.secondary'>
                       {convertDelay(vehicleData[vehicleIndex].Delay) <= 0
@@ -159,9 +160,9 @@ function Menu(props) {
                       minutes`}
                     </Typography>
                     <Typography variant='body2'>
-                      Zapierdala jak pershing
-                      <br />
                       {`Speed ${vehicleData[vehicleIndex].Speed} km/h`}
+                      <br />
+                      Vehicle code is {vehicleData[vehicleIndex].VehicleCode}
                     </Typography>
                   </CardContent>
                 </Card>
