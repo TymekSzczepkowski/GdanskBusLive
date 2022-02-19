@@ -6,11 +6,10 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Typography,
 } from "@mui/material/";
 import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
 import TramIcon from "@mui/icons-material/Tram";
-import Tram from "@mui/icons-material/Tram";
+import "./popup.css";
 
 export default function Popup() {
   const [open, setOpen] = React.useState(true);
@@ -33,12 +32,7 @@ export default function Popup() {
             There are two types of vehicles icons:
           </DialogContentText>
           <DialogContentText>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                flexWrap: "wrap",
-              }}>
+            <div className='iconSet'>
               <TramIcon fontSize='large' color='success' />
               <span>TRAM</span>
               <DirectionsBusIcon fontSize='large' color='success' />
@@ -50,17 +44,15 @@ export default function Popup() {
             delay:
           </DialogContentText>
           <DialogContentText>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                flexWrap: "wrap",
-              }}>
+            <div className='iconSet'>
               <DirectionsBusIcon fontSize='large' color='success' />
               <span>No delay</span>
-
+            </div>
+            <div className='iconSet'>
               <DirectionsBusIcon fontSize='large' color='warning' />
               <span>More than 1 minute delay</span>
+            </div>
+            <div className='iconSet'>
               <DirectionsBusIcon fontSize='large' color='error' />
               <span>More than 3 minute delay</span>
             </div>
