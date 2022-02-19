@@ -5,6 +5,7 @@ import { grey } from "@mui/material/colors";
 import CssBaseline from "@mui/material/CssBaseline";
 import { styled } from "@mui/material/styles";
 import ViewMap from "../Map/ViewMap";
+import Popup from "../Popup/Popup";
 import VehicleCard from "../VehicleCard/VehicleCard";
 import getVehicleGPSPositon from "../../hooks/getVehicleGPSPosition";
 import getLineData from "../../hooks/getLineData";
@@ -75,6 +76,7 @@ function Menu(props) {
 
   return (
     <Root>
+      <Popup />
       <CssBaseline />
       <Global
         styles={{
