@@ -1,4 +1,4 @@
-import Menu from "./components/Menu/Menu";
+import Menu from "./components/Main/Main";
 import { useMemo } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "./App.css";

@@ -3,8 +3,9 @@ import TramIcon from "@mui/icons-material/Tram";
 import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
 import { Map, Overlay } from "pigeon-maps";
 import { isMobile } from "react-device-detect";
-import "./Map.css";
+import "./ViewMap.css";
 function ViewMap(props) {
+
   return (
     <div className='map'>
       <Map
