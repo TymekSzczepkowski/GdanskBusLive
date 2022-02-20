@@ -1,6 +1,16 @@
 import { useState, useEffect } from "react";
 import { Global } from "@emotion/react";
-import { Box, Skeleton, Typography, SwipeableDrawer } from "@mui/material/";
+import {
+  Box,
+  Skeleton,
+  Typography,
+  SwipeableDrawer,
+  FormControl,
+  Select,
+  MenuItem,
+  MenuList,
+  InputLabel,
+} from "@mui/material/";
 import { grey } from "@mui/material/colors";
 import CssBaseline from "@mui/material/CssBaseline";
 import { styled } from "@mui/material/styles";
@@ -9,6 +19,7 @@ import Popup from "../Popup/Popup";
 import VehicleCard from "../VehicleCard/VehicleCard";
 import getVehicleGPSPositon from "../../hooks/getVehicleGPSPosition";
 import getLineData from "../../hooks/getLineData";
+import "./Main.css";
 
 const drawerBleeding = 56;
 const Root = styled("div")(({ theme }) => ({
@@ -38,10 +49,14 @@ function Menu(props) {
   const [vehicleData, setVehicleData] = useState([]);
   const [lineData, setLineData] = useState([]);
   const [lineNumber, setLineNumber] = useState([]);
-  const [line, setLine] = useState("");
+  const [open, setOpen] = useState(false);
 
   const { window } = props;
-  const [open, setOpen] = useState(false);
+  const [trackedLineNumber, setTrackedLineNumber] = useState("");
+
+  const handleChange = (event) => {
+    setTrackedLineNumber(event.target.value);
+  };
 
   const toggleDrawer = (newOpen, index, line) => () => {
     setOpen(newOpen);
@@ -76,6 +91,21 @@ function Menu(props) {
 
   return (
     <Root>
+      <FormControl variant='filled' fullWidth>
+        <InputLabel>Search for a route You want to track</InputLabel>
+        <Select value={trackedLineNumber}>
+          <MenuList sx={{ maxHeight: 260 }}>
+            {lineData.map((line, index) => (
+              <MenuItem
+                onChange={handleChange}
+                key={index}
+                value={line.routeShortName}>
+                {line.routeShortName} - {line.routeLongName}
+              </MenuItem>
+            ))}
+          </MenuList>
+        </Select>
+      </FormControl>
       <Popup />
       <CssBaseline />
       <Global
