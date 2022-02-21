@@ -112,7 +112,7 @@ function ViewMap(props) {
               <TramIcon
                 color={props.iconColorizer(state.Delay)}
                 fontSize='large'
-                // onClick={props.toggleDrawer(true,state.Line)}
+                // onClick={props.toggleDrawer(true, state.Line)}
               />
             )}
           </Overlay>
