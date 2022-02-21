@@ -12,13 +12,6 @@ import getLineData from "../../hooks/getLineData";
 import "./Main.css";
 
 const drawerBleeding = 56;
-const Root = styled("div")(({ theme }) => ({
-  height: "100%",
-  backgroundColor:
-    theme.palette.mode === "light"
-      ? grey[100]
-      : theme.palette.background.default,
-}));
 
 const StyledBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "light" ? "#fff" : grey[800],
@@ -75,7 +68,7 @@ function Menu(props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Root>
+    <div>
       <Popup />
       <CssBaseline />
       <Global
@@ -134,7 +127,7 @@ function Menu(props) {
           )}
         </StyledBox>
       </SwipeableDrawer>
-    </Root>
+    </div>
   );
 }
 
