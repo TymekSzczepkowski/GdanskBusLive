@@ -12,8 +12,12 @@ import TramIcon from "@mui/icons-material/Tram";
 import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
 import { Map, Overlay } from "pigeon-maps";
 import { isMobile } from "react-device-detect";
+import { maptiler } from "pigeon-maps/providers";
+
 import CommuteIcon from "@mui/icons-material/Commute";
 import "./ViewMap.css";
+const maptilerProvider = maptiler("kfJKt4TfflQlEPFS4wos", "streets");
+
 function ViewMap(props) {
   const [state, setState] = useState();
   const handleClick = (e) => {
@@ -27,6 +31,7 @@ function ViewMap(props) {
   return (
     <div className='map'>
       <Map
+        provider={maptilerProvider}
         defaultZoom={11}
         twoFingerDrag={isMobile ? true : false}
         defaultCenter={[54.372158, 18.638306]}>
