@@ -6,12 +6,16 @@ import { Map, Overlay } from "pigeon-maps";
 import { isMobile } from "react-device-detect";
 import { maptiler } from "pigeon-maps/providers";
 import CommuteIcon from "@mui/icons-material/Commute";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Dropdown from "./Dropdown/Dropdown";
 import "./ViewMap.css";
 const maptilerProvider = maptiler("kfJKt4TfflQlEPFS4wos", "streets");
 
 function ViewMap(props) {
   const [state, setState] = useState();
+  const [showUserIcon, setShowUserIcon] = useState(false);
+  const [latitude, setLatitude] = useState(54.372158);
+  const [longitude, setLongitude] = useState(18.638306);
   const handleClick = (e) => {
     console.log(e.target.value);
     let foundMatch = props.vehicleData.find(function (vehicle) {
@@ -19,17 +23,39 @@ function ViewMap(props) {
     });
     setState(foundMatch);
   };
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((position) => {
+      setShowUserIcon(true);
+      setLatitude(position.coords.latitude);
+      setLongitude(position.coords.longitude);
+    });
+  }
+
+  console.log(latitude, longitude);
   return (
     <div className='map'>
       <Map
         provider={maptilerProvider}
-        defaultZoom={11}
+        defaultZoom={14}
         twoFingerDrag={isMobile ? true : false}
-        defaultCenter={[54.372158, 18.638306]}>
+        center={[latitude, longitude]}>
         <Dropdown
           lineData={props.lineData}
           state={state}
           handleClick={handleClick}></Dropdown>
+        {showUserIcon ? (
+          <Overlay
+            sx={{ position: "relative", zIndex: 3 }}
+            position={[latitude, longitude]}>
+            <div className='div'>
+              <AccountCircleIcon
+                fontSize='large'
+                sx={{ color: "#2196f3" }}></AccountCircleIcon>
+              <span className='lineNumber'>You</span>
+            </div>
+          </Overlay>
+        ) : null}
         {state == undefined ? null : (
           <Fab
             color='primary'
@@ -46,7 +72,6 @@ function ViewMap(props) {
           props.vehicleData.map((item, index) => (
             <Overlay
               sx={{ position: "relative", zIndex: 2 }}
-              color='red'
               key={index}
               position={[item.Lat, item.Lon]}>
               <div className='div'>
