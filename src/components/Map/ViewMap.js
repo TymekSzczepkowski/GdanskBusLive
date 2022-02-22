@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Fab } from "@mui/material";
 import TramIcon from "@mui/icons-material/Tram";
 import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
-import { Map, Overlay } from "pigeon-maps";
+import { Map, Overlay, ZoomControl } from "pigeon-maps";
 import { isMobile } from "react-device-detect";
 import { maptiler } from "pigeon-maps/providers";
 import CommuteIcon from "@mui/icons-material/Commute";
@@ -91,6 +91,7 @@ function ViewMap(props) {
             </div>
           </Overlay>
         )}
+        <ZoomControl style={{ top: "14vh" }}></ZoomControl>
       </Map>
     </div>
   );
