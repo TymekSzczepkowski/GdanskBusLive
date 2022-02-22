@@ -1,3 +1,18 @@
 .map {
   height: 100vh;
 }
+.lineNumber {
+  color: #424242;
+  font-weight: bold;
+  display: block;
+}
+.div {
+  line-height: 0.8;
+  vertical-align: top;
+  display: inline-block;
+  text-align: center;
+}
+.div:hover {
+  transition: all 0.5s;
+  font-size: 22px;
+}
